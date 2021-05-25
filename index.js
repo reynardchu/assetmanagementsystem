@@ -24,7 +24,7 @@ writeButton.addEventListener("click", async () => {
 
   try {
     const ndef = new NDEFReader();
-    await ndef.write("Hello world!");
+    await ndef.write("Hello world22!");
     log("> Message written");
   } catch (error) {
     log("Argh! " + error);
