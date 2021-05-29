@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', event => {
     /* const VENDOR_ID = 0x1A61 */
 const VENDOR_ID = 0x0BB4
 
-usbDevice.controlTransferIn(({
+device.controlTransferIn(({
 		 requestType: 'vendor',
    		 recipient: 'device',
    		 request: 51, // ACCESSORY_GET_PROTOCOL
