@@ -7,14 +7,26 @@
   click.onclick = function() {
     var vendorId = '0x' + document.getElementById('vendor').value
 
+    let device;
+
     navigator.usb.requestDevice({ filters: [
       { 'vendorId': vendorId }
     ] })
-    .then(device => {
+    
+    .then(selectedDevice => {
+    device = selectedDevice;
+    return device.open(); // Begin a session.
+      
       console.log(device)
       console.log("Product ID: " + device.productId.toString(16))
       console.log("Vendor ID: " + device.vendorId.toString(16))
-    })
+  })
+    
+ //   .then(device => {
+ //    console.log(device)
+ //     console.log("Product ID: " + device.productId.toString(16))
+ //     console.log("Vendor ID: " + device.vendorId.toString(16))
+ //   })
     .catch(error => { console.log(error) })
   }
 </script>
