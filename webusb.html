@@ -1,0 +1,20 @@
+<label for="vendorId">Vendor ID: 0x</label>
+<input type="text" name="vendorId" placeholder="vendorId" id="vendor" value="2a03">
+
+<p><a href="#" id="click">Click me to get USB device info</a></p>
+
+<script>
+  click.onclick = function() {
+    var vendorId = '0x' + document.getElementById('vendor').value
+
+    navigator.usb.requestDevice({ filters: [
+      { 'vendorId': vendorId }
+    ] })
+    .then(device => {
+      console.log(device)
+      console.log("Product ID: " + device.productId.toString(16))
+      console.log("Vendor ID: " + device.vendorId.toString(16))
+    })
+    .catch(error => { console.log(error) })
+  }
+</script>
