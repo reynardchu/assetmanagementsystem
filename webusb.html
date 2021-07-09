@@ -9,7 +9,9 @@
 
 let device;
 
-navigator.usb.requestDevice({ filters: [{ vendorId: 0x2717 }] })
+    navigator.usb.requestDevice({ filters: [
+      { 'vendorId': vendorId }
+    ] })
   
   .then(selectedDevice => {
     device = selectedDevice;
