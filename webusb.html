@@ -13,10 +13,6 @@
     
     .then(device => {
     return device.open(); // Begin a session.
- 
-      console.log(device)
-      console.log("Product ID: " + device.productId.toString(16))
-      console.log("Vendor ID: " + device.vendorId.toString(16))
   })
     
 .then(() => device.selectConfiguration(1)) // Select configuration #1 for the device.
@@ -32,5 +28,5 @@
   const decoder = new TextDecoder();
   console.log('Received: ' + decoder.decode(result.data));
 })
-.catch(error => { console.error(error); })
+.catch(error => { console.error(error); });
 </script>
