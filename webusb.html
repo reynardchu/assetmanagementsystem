@@ -7,20 +7,9 @@
   click.onclick = function() {
     var vendorId = '0x' + document.getElementById('vendor').value
 
-    navigator.usb.requestDevice({ filters: [
-      { 'vendorId': vendorId }
-    ] })
-    .then(device => {
-      console.log(device)
-      console.log("Product ID: " + device.productId.toString(16))
-      console.log("Vendor ID: " + device.vendorId.toString(16))
-      console.log(device.productName);
-      console.log(device.serialNumber);
-                  device.productName;
-   
-    })
-    .catch(error => { console.log(error) })
-  }
+let device;
+
+navigator.usb.requestDevice({ filters: [{ vendorId: 0x2717 }] })
   
   .then(selectedDevice => {
     device = selectedDevice;
