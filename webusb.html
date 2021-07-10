@@ -10,23 +10,29 @@
     navigator.usb.requestDevice({ filters: [
       { 'vendorId': vendorId }
     ] })
-    
     .then(device => {
-    return device.open(); // Begin a session.
-  })
-    
-.then(() => device.selectConfiguration(1)) // Select configuration #1 for the device.
-.then(() => device.claimInterface(2)) // Request exclusive control over interface #2.
-.then(() => device.controlTransferOut({
-    'requestType': 'class',
-    'recipient': 'interface',
-    'request': 0x22,
-    'value': 0x01,
-    'index': 0x02})) // Ready to receive data
-.then(() => device.transferIn(5, 64)) // Waiting for 64 bytes of data from endpoint #5.
-.then(result => {
-  const decoder = new TextDecoder();
-  console.log('Received: ' + decoder.decode(result.data));
-})
-.catch(error => { console.error(error); });
+      console.log(device)
+      console.log("Product ID: " + device.productId.toString(16))
+      console.log("Vendor ID: " + device.vendorId.toString(16))
+    })
+    .catch(error => { console.log(error) })
+  }
+  
+  device.controlTransferIn(({
+		 requestType: 'vendor',
+   		 recipient: 'device',
+   		 request: 51, // ACCESSORY_GET_PROTOCOL
+   		 value: 0,
+   		 index: 0
+}), 2).then(response => { 
+      if (response.data.getInt8(0) == 1) {
+        console.log("AoA V1 available");
+      }
+      if (response.data.getInt8(0) == 2) {
+	console.log("AoA V2 available");
+      }
+  }).catch(e => {
+   	console.log("Can't send " + e);
+});
+  
 </script>
