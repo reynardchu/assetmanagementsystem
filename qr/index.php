@@ -25,7 +25,6 @@
 <script type="text/javascript">
 function onScanSuccess(qrCodeMessage) {
     document.getElementById('result').innerHTML = '<span class="result">'+qrCodeMessage+'</span>';
-   let qrCodeMessage = 'qrCodeMessage';
 }
 function onScanError(errorMessage) {
   //handle scan error
