@@ -1,3 +1,7 @@
+<?php
+   echo "<script>document.writeln(qrCodeMessage);</script>";
+?>
+
 <script src="html5-qrcode.min.js"></script>
 <style>
   .result{
