@@ -1,1 +1,38 @@
+<a href="#" id="click">Connect</a>
 
+<script src="serial.js"></script>
+<script>
+    serial.requestPort = function() {
+        const filters = [
+            { 'vendorID': 0x2341, 'productID': 0x8036 } //Arduino Leonardo
+        ];
+
+        return navigator.usb.requestDevice({ 'filters': filters }).then(
+        device => new serial.Port(device)
+        );
+} 
+
+var port
+var connectButton = document.getElementById('click')
+var textDecoder = new textDecoder()
+
+connectButton.addEventListener('click', function() {
+    if (port) {
+        connectButton.textContent = 'Connect'
+        port.disconnect()
+        port = null
+    } else {
+        serial.requestPort().then(selectedPort => {
+            port = selectedPort
+            port.connect().then(() => {
+                console.log('Connected!')
+
+                connectButton.textContent = 'Disconnect'
+
+                port.onReceive = data => { console.log(textDecoder.decode(data))}
+                port.onReceiveError = error => {console.log('Receive error: ' + error)}
+            }, error => { console.log('Connection error: ' + error) })
+        }).catch(error => { console.log('Connection error: ' + error)})
+    }
+})
+</script>
