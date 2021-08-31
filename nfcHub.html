@@ -4,7 +4,7 @@
 <script>
     serial.requestPort = function() {
         const filters = [
-            { 'vendorID': 0x2341 } //Arduino Leonardo
+            { 'vendorID': 0x2341, 'productID': 0x8036 } //Arduino Leonardo
         ];
 
         return navigator.usb.requestDevice({ 'filters': filters }).then(
