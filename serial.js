@@ -1,14 +1,25 @@
+// RYC *****************************************
+// Taken from https://github.com/webusb/arduino/blob/gh-pages/demos/serial.js
+// Has several functions, see comments below
+// *********************************************
 var serial = {};
 
 (function() {
   'use strict';
 
+  // RYC *******************
+  // getPorts Function
+  // ***********************
   serial.getPorts = function() {
     return navigator.usb.getDevices().then(devices => {
       return devices.map(device => new serial.Port(device));
     });
   };
 
+  
+  // RYC *******************
+  // 2. RequestPort Function
+  // ***********************
   serial.requestPort = function() {
     const filters = [
       { 'vendorId': 0x2341, 'productId': 0x8036 }, // Arduino Leonardo
@@ -29,14 +40,20 @@ var serial = {};
       device => new serial.Port(device)
     );
   }
-
+  
+  // RYC *******************
+  // Ports Function
+  // ***********************
   serial.Port = function(device) {
     this.device_ = device;
     this.interfaceNumber_ = 2;  // original interface number of WebUSB Arduino demo
     this.endpointIn_ = 5;       // original in endpoint ID of WebUSB Arduino demo
     this.endpointOut_ = 4;      // original out endpoint ID of WebUSB Arduino demo
   };
-
+  
+  // RYC *******************
+  // connect Function
+  // ***********************
   serial.Port.prototype.connect = function() {
     let readLoop = () => {
       this.device_.transferIn(this.endpointIn_, 64).then(result => {
@@ -89,7 +106,10 @@ var serial = {};
           readLoop();
         });
   };
-
+  
+  // RYC *******************
+  // Disconnect Function
+  // ***********************
   serial.Port.prototype.disconnect = function() {
     // This request sets the DTR (data terminal ready) signal low to
     // indicate to the device that the host has disconnected.
@@ -101,7 +121,10 @@ var serial = {};
             'index': this.interfaceNumber_})
         .then(() => this.device_.close());
   };
-
+ 
+  // RYC *******************
+  // Function
+  // ***********************
   serial.Port.prototype.send = function(data) {
     return this.device_.transferOut(this.endpointOut_, data);
   };
